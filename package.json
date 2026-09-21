@@ -7,8 +7,7 @@
     "start": "node backend/server.js",
     "dev": "node backend/server.js",
     "build": "node scripts/build.js",
-    "download-models": "node scripts/download-models.js",
-    "postinstall": "node scripts/download-models.js"
+    "download-models": "node scripts/download-models.js"
   },
   "keywords": [
     "absensi",
