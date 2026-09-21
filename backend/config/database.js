@@ -26,7 +26,7 @@ async function getPool() {
           queueLimit: 0,
           dateStrings: true,
           connectTimeout: 15000,
-          ssl: { rejectUnauthorized: false }
+          ssl: { rejectUnauthorized: false, minVersion: 'TLSv1.2' }
         };
       } catch (e) {
         poolConfig = {
@@ -36,7 +36,7 @@ async function getPool() {
           queueLimit: 0,
           dateStrings: true,
           connectTimeout: 15000,
-          ssl: { rejectUnauthorized: false }
+          ssl: { rejectUnauthorized: false, minVersion: 'TLSv1.2' }
         };
       }
     } else {
@@ -81,6 +81,9 @@ async function getPool() {
 
     try {
       pool = mysql.createPool(poolConfig);
+      pool.on('error', (err) => {
+        console.error('⚠️ MySQL Pool Error Event:', err.message);
+      });
       console.log('🔌 Koneksi Pool Database MySQL berhasil dibuat.');
     } catch (err) {
       console.error('❌ Gagal terhubung ke MySQL Host:', err.message);
