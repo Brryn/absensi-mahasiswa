@@ -1,3 +1,5 @@
 module.exports = (req, res) => {
-  res.json({ success: true, message: "Server API Vercel Berfungsi Normal!" });
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({ success: true, message: 'Vercel Serverless Function OK' }));
 };
