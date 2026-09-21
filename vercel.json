@@ -1,28 +1,28 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api"
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "source": "/admin/:path*",
-      "destination": "/dist/admin/:path*"
+      "source": "/admin/(.*)",
+      "destination": "/dist/admin/$1"
     },
     {
-      "source": "/css/:path*",
-      "destination": "/dist/css/:path*"
+      "source": "/css/(.*)",
+      "destination": "/dist/css/$1"
     },
     {
-      "source": "/js/:path*",
-      "destination": "/dist/js/:path*"
+      "source": "/js/(.*)",
+      "destination": "/dist/js/$1"
     },
     {
-      "source": "/img/:path*",
-      "destination": "/dist/img/:path*"
+      "source": "/img/(.*)",
+      "destination": "/dist/img/$1"
     },
     {
-      "source": "/models/:path*",
-      "destination": "/dist/models/:path*"
+      "source": "/models/(.*)",
+      "destination": "/dist/models/$1"
     },
     {
       "source": "/admin",
