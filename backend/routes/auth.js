@@ -47,9 +47,10 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Error saat login:', error);
+    const msg = error ? (error.sqlMessage || error.message || error.code || String(error)) : 'Unknown error';
     res.status(500).json({ 
       success: false, 
-      message: `ERR [${error.code || 'NOCODE'}]: ${error.message}` 
+      message: `Database Error: ${msg}` 
     });
   }
 });
