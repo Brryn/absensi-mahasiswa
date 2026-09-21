@@ -94,17 +94,17 @@ async function getPool() {
 const dbHelper = {
   async run(sql, params = []) {
     const p = await getPool();
-    const [result] = await p.execute(sql, params);
+    const [result] = await p.query(sql, params);
     return { id: result.insertId, changes: result.affectedRows };
   },
   async get(sql, params = []) {
     const p = await getPool();
-    const [rows] = await p.execute(sql, params);
+    const [rows] = await p.query(sql, params);
     return rows[0] || null;
   },
   async all(sql, params = []) {
     const p = await getPool();
-    const [rows] = await p.execute(sql, params);
+    const [rows] = await p.query(sql, params);
     return rows;
   }
 };
