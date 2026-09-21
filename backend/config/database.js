@@ -93,22 +93,67 @@ async function getPool() {
   return pool;
 }
 
+async function getConn() {
+  if (connectionString) {
+    try {
+      const u = new URL(connectionString);
+      return await mysql.createConnection({
+        host: u.hostname,
+        port: parseInt(u.port || '3306', 10),
+        user: u.username,
+        password: decodeURIComponent(u.password),
+        database: u.pathname.replace(/^\//, '') || 'defaultdb',
+        dateStrings: true,
+        connectTimeout: 10000,
+        ssl: { rejectUnauthorized: false }
+      });
+    } catch (e) {
+      return await mysql.createConnection({
+        uri: connectionString,
+        dateStrings: true,
+        connectTimeout: 10000,
+        ssl: { rejectUnauthorized: false }
+      });
+    }
+  } else {
+    return await getPool();
+  }
+}
+
 // Helper query universal untuk Express Routes
 const dbHelper = {
   async run(sql, params = []) {
-    const p = await getPool();
-    const [result] = await p.query(sql, params);
-    return { id: result.insertId, changes: result.affectedRows };
+    const conn = await getConn();
+    try {
+      const [result] = await conn.query(sql, params);
+      if (conn.end) await conn.end().catch(() => {});
+      return { id: result.insertId, changes: result.affectedRows };
+    } catch (e) {
+      if (conn.end) await conn.end().catch(() => {});
+      throw e;
+    }
   },
   async get(sql, params = []) {
-    const p = await getPool();
-    const [rows] = await p.query(sql, params);
-    return rows[0] || null;
+    const conn = await getConn();
+    try {
+      const [rows] = await conn.query(sql, params);
+      if (conn.end) await conn.end().catch(() => {});
+      return rows[0] || null;
+    } catch (e) {
+      if (conn.end) await conn.end().catch(() => {});
+      throw e;
+    }
   },
   async all(sql, params = []) {
-    const p = await getPool();
-    const [rows] = await p.query(sql, params);
-    return rows;
+    const conn = await getConn();
+    try {
+      const [rows] = await conn.query(sql, params);
+      if (conn.end) await conn.end().catch(() => {});
+      return rows;
+    } catch (e) {
+      if (conn.end) await conn.end().catch(() => {});
+      throw e;
+    }
   }
 };
 
