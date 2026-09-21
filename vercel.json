@@ -1,36 +1,47 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index.js"
+      "src": "backend/server.js",
+      "use": "@vercel/node"
     },
     {
-      "source": "/admin/(.*)",
-      "destination": "/dist/admin/$1"
+      "src": "dist/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
     },
     {
-      "source": "/css/(.*)",
-      "destination": "/dist/css/$1"
+      "src": "/admin/(.*)",
+      "dest": "/dist/admin/$1"
     },
     {
-      "source": "/js/(.*)",
-      "destination": "/dist/js/$1"
+      "src": "/css/(.*)",
+      "dest": "/dist/css/$1"
     },
     {
-      "source": "/img/(.*)",
-      "destination": "/dist/img/$1"
+      "src": "/js/(.*)",
+      "dest": "/dist/js/$1"
     },
     {
-      "source": "/models/(.*)",
-      "destination": "/dist/models/$1"
+      "src": "/img/(.*)",
+      "dest": "/dist/img/$1"
     },
     {
-      "source": "/admin",
-      "destination": "/dist/admin/index.html"
+      "src": "/models/(.*)",
+      "dest": "/dist/models/$1"
+    },
+    {
+      "src": "/admin",
+      "dest": "/dist/admin/index.html"
     },
     {
       "source": "/(.*)",
-      "destination": "/dist/$1"
+      "dest": "/dist/$1"
     }
   ]
 }
